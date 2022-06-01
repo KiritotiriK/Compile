@@ -1,4 +1,4 @@
-open CPar
+open MyPar
 open Interp
 
 let fromFile = Parse.fromFile

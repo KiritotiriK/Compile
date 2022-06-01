@@ -1,33 +1,6 @@
-(* File MicroC/Interp.c
-   Interpreter for micro-C, a fraction of the C language
-   sestoft@itu.dk * 2010-01-07, 2014-10-18
-
-   A value is an integer; it may represent an integer or a pointer,
-   where a pointer is just an address in the store (of a variable or
-   pointer or the base address of an array).  The environment maps a
-   variable to an address (location), and the store maps a location to
-   an integer.  This freely permits pointer arithmetics, as in real C.
-   Expressions can have side effects.  A function takes a list of
-   typed arguments and may optionally return a result.
-
-   For now, arrays can be one-dimensional only.  For simplicity, we
-   represent an array as a variable which holds the address of the
-   first array element.  This is consistent with the way array-type
-   parameters are handled in C (and the way that array-type variables
-   were handled in the B language), but not with the way array-type
-   variables are handled in C.
-
-   The store behaves as a stack, so all data are stack allocated:
-   variables, function parameters and arrays.
-
-   The return statement is not implemented (for simplicity), so all
-   functions should have return type void.  But there is as yet no
-   typecheck, so be careful.
- *)
-
 module Interp
 
-open Absyn
+open AbstractSyntax
 open Debug
 
 (* Simple environment operations *)

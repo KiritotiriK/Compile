@@ -6,7 +6,7 @@ open System
 open System.IO
 open System.Text
 open FSharp.Text
-open Absyn
+open AbstractSyntax
 open Debug
 
 (* Plain parsing from a string, with poor error reporting *)

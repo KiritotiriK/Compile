@@ -9,7 +9,22 @@
         | STRING                              { TypeString   }
         | FLOAT                               { TypeFloat    }
         | STRUCT  NAME                        { TypeStruct($2) }
-    
+* MyLex.fsl—— 词法分析器
+    * float -> FLOAT 
+    * Token
+      * `['0'-'9']+'.'['0'-'9']+`  // System.Single.Parse将字符串转换为单精度浮点数，参考`['0'-'9']+` 
+* MyPar.fsy—— 语法分析器
+    * %token FLOAT STRING  `//新增float,string`
+    * %token CSTFLOAT CSTCHAR
+    * ConstFloat `| MINUS CSTINT` ,参考`Const`
+* Assembly.fs—— 汇编编译指令集
+  * 定义指令CSTF `CSTF of int32 ` 参考了CSTI,且float为32位
+  * 新增数字指令 `CODECSTF = 26` ,参考前面,有样学样
+  * 新增makelabenv和emitints `CSTF i `,参考CSTI
+  * 新增反编译`| CODECSTF :: i :: ints_rest -> CSTF i :: decomp `,参考CODECSTI
+* Contcompile.fs—— 将抽象语法树转化为中间表示
+  * 新增`addCSTF i C`，参考`addCST i C`
+
 
 
 ### 5.31新增 `wyl`：
