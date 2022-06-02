@@ -1,6 +1,25 @@
 # 编译原理大作业
 ## Miroc
 
+
+### 6.2新增 `wyl`：
+* AbstractSyntax.fs—— 抽象语法树文件
+  * 新增声明：Sleep
+* MyLex.fsl—— 词法分析器
+  * 新增关键词 `"sleep"  -> SLEEP`
+* MyPar.fsy—— 语法分析器
+  * 新增指令 `%token SLEEP`
+  * 新增 StmtM
+  * 新增`SLEEP Expr`,参考PRINT Expr    
+* Assembly.fs—— 汇编编译指令集
+  * 新增指令 `SLEEP` 
+  * 新增数字指令 `CODESLEEP = 27` ,参考前面,有样学样
+  * 新增makelabenv和emitints `SLEEP`,参考STOP
+* Contcompile.fs—— 将抽象语法树转化为中间表示
+  * 新增cExpr`"sleep" -> SLEEP`，参考`printc -> PRINTC`
+
+
+
 ### 6.1新增 `wyl`：
 * #### `文件进行了重构`
 * MyPar.fsy—— 语法分析器
@@ -24,6 +43,7 @@
   * 新增反编译`| CODECSTF :: i :: ints_rest -> CSTF i :: decomp `,参考CODECSTI
 * Contcompile.fs—— 将抽象语法树转化为中间表示
   * 新增`addCSTF i C`，参考`addCST i C`
+
 
 
 

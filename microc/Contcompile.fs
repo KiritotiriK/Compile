@@ -4,8 +4,7 @@ open System.IO
 open AbstractSyntax
 open Assembly
 
-(* The intermediate representation between passes 1 and 2 above:  *)
-
+// 1，2以上的中间表示
 type bstmtordec =
      | BDec of instr list                  (* Declaration of local variable  *)
      | BStmt of stmt                       (* A statement                    *)
@@ -234,7 +233,7 @@ and cExpr (e : expr) (varEnv : VarEnv) (funEnv : FunEnv) (C : instr list) : inst
     | Access acc     -> cAccess acc varEnv funEnv (LDI :: C)
     | Assign(acc, e) -> cAccess acc varEnv funEnv (cExpr e varEnv funEnv (STI :: C))
     | CstI i         -> addCST i C
-    |ConstFloat i    -> addCSTF i C   //新增
+    | ConstFloat i   -> addCSTF i C   //新增
     | Addr acc       -> cAccess acc varEnv funEnv C
     | Prim1(ope, e1) ->
       cExpr e1 varEnv funEnv
@@ -242,7 +241,9 @@ and cExpr (e : expr) (varEnv : VarEnv) (funEnv : FunEnv) (C : instr list) : inst
            | "!"      -> addNOT C
            | "printi" -> PRINTI :: C
            | "printc" -> PRINTC :: C
+           | "sleep"   -> SLEEP :: C
            | _        -> failwith "unknown primitive 1")
+           
     | Prim2(ope, e1, e2) ->
       cExpr e1 varEnv funEnv
         (cExpr e2 varEnv funEnv

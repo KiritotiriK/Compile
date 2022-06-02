@@ -11,11 +11,11 @@ let nl = CstI 10 //  \n 的 ASCII 码
 
 %token <int> CSTINT CSTBOOL  // <int> 是词元的语义值类型
 %token <string> CSTSTRING NAME
-
-%token <float32> CSTFLOAT   //新增float,char
+%token <float32> CSTFLOAT    //新增float,char
 %token <char> CSTCHAR
 
 %token FLOAT STRING   //新增float,string
+%token SLEEP  //新增sleep
 %token CHAR ELSE IF INT NULL PRINT PRINTLN RETURN VOID WHILE
 %token PLUS MINUS TIMES DIV MOD
 %token EQ NE GT LT GE LE
@@ -138,6 +138,8 @@ StmtM:  /* No unbalanced if-else */
   | Block                               { $1                   }
   | IF LPAR Expr RPAR StmtM ELSE StmtM  { If($3, $5, $7)       }
   | WHILE LPAR Expr RPAR StmtM          { While($3, $5)        }
+   // sleep(2)
+  | SLEEP LPAR Expr RPAR SEMI           { Sleep($3)}    
 ;
 
 StmtU:
@@ -157,6 +159,7 @@ ExprNotAccess:
   | NAME LPAR Exprs RPAR                { Call($1, $3)        }  
   | NOT Expr                            { Prim1("!", $2)      }
   | PRINT Expr                          { Prim1("printi", $2) }
+  | SLEEP Expr                          { Prim1("sleep",$2)   } //新增
   | PRINTLN                             { Prim1("printc", nl) }
   | Expr PLUS  Expr                     { Prim2("+",  $1, $3) }
   | Expr MINUS Expr                     { Prim2("-",  $1, $3) }

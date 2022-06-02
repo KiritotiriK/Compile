@@ -35,6 +35,7 @@ type instr =
     | PRINTC (* print s[sp] as character        *)
     | LDARGS of int (* load command line args on stack *)
     | STOP (* halt the abstract machine       *)
+    | SLEEP     //新增
 
 (* Generate new distinct labels *)
 
@@ -168,6 +169,8 @@ let CODESTOP = 25
 [<Literal>]
 let CODECSTF = 26   //新增，float,有样学样
 
+[<Literal>]
+let CODESLEEP = 27
 
 
 
@@ -206,6 +209,7 @@ let makelabenv (addr, labenv) instr =
     | PRINTC -> (addr + 1, labenv)
     | LDARGS m -> (addr + 1, labenv)
     | STOP -> (addr + 1, labenv)
+    | SLEEP        -> (addr+1, labenv)
 
 (* Bytecode emission, second pass: output bytecode as integers *)
 
@@ -245,6 +249,8 @@ let rec emitints getlab instr ints =
     | PRINTC -> CODEPRINTC :: ints
     | LDARGS m -> CODELDARGS :: ints
     | STOP -> CODESTOP :: ints
+    | SLEEP-> CODESLEEP:: ints
+
 
 
 (* Convert instruction list to int list in two passes:
