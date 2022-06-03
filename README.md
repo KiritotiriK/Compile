@@ -2,6 +2,17 @@
 ## Miroc
 
 
+### 6.3新增 `wyl`：
+* AbstractSyntax.fs—— 抽象语法树文件
+  * 新增声明：`AssignThird`，参考了Assign
+* MyPar.fsy—— 语法分析器
+  * 新增ExprNotAccess指令 `PLUSEQ` `MINUSEQ ` `TIMESEQ ` `DIVEQ  ` `MODEQ`，参考 `MINUS` `PLUS ` `TIMES ` `DIV` `MOD` `EQ`
+* MyLex.fsl—— 词法分析器
+  * 新增声明`+=` `-= ` `*= ` `/=` `%=`
+* Contcompile.fs—— 将抽象语法树转化为中间表示
+  * 新增表达式`AssignThird(ope,acc,e)`，参考`Prim2(ope, e1, e2)`
+
+
 ### 6.2新增 `wyl`：
 * AbstractSyntax.fs—— 抽象语法树文件
   * 新增声明：Sleep
