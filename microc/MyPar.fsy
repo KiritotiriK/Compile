@@ -16,6 +16,7 @@ let nl = CstI 10 //  \n 的 ASCII 码
 
 %token FLOAT STRING   //新增float,string
 %token SLEEP  //新增sleep
+%token FOR  //新增for
 %token CHAR ELSE IF INT NULL PRINT PRINTLN RETURN VOID WHILE
 %token PLUS MINUS TIMES DIV MOD
 %token EQ NE GT LT GE LE
@@ -138,8 +139,9 @@ StmtM:  /* No unbalanced if-else */
   | Block                               { $1                   }
   | IF LPAR Expr RPAR StmtM ELSE StmtM  { If($3, $5, $7)       }
   | WHILE LPAR Expr RPAR StmtM          { While($3, $5)        }
-   // sleep(2)
-  | SLEEP LPAR Expr RPAR SEMI           { Sleep($3)}    
+  | FOR LPAR Expr SEMI Expr SEMI Expr RPAR StmtM     { For($3,$5,$7,$9)  }  //for (Expr; Expr;Expr) stmtM
+  | FOR Expr IN LPAR Expr RANGE Expr RPAR StmtM      { Range($2,$5,$7,$9)}  //for Expr in (Expr range expr) stmtM
+  | SLEEP LPAR Expr RPAR SEMI           { Sleep($3)}     // sleep(2)
 ;
 
 StmtU:

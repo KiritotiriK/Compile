@@ -218,6 +218,19 @@ let rec cStmt stmt (varEnv : VarEnv) (funEnv : FunEnv) (C : instr list) : instr 
       RET (snd varEnv - 1) :: deadcode C
     | Return (Some e) -> 
       cExpr e varEnv funEnv (RET (snd varEnv) :: deadcode C)
+    | For(dec, e, opera,body) ->
+        let labend   = newLabel()                       //结束label
+        let labbegin = newLabel()                       //设置label 
+        let labope   = newLabel()                       //设置 for(,,opera) 的label
+        let lablist = labend :: labope :: lablist
+        let Cend = Label labend :: C
+        let (jumptest, C2) =                                                
+            makeJump (cExpr e varEnv funEnv lablist structEnv (IFNZRO labbegin :: Cend)) 
+        let C3 = Label labope :: cExpr opera varEnv funEnv lablist structEnv (addINCSP -1 C2)
+        let C4 = cStmt body varEnv funEnv lablist structEnv C3    
+        cExpr dec varEnv funEnv lablist structEnv (addINCSP -1 (addJump jumptest  (Label labbegin :: C4) ) ) //dec Label: body  opera  testjumpToBegin 指令的顺序    
+
+
 
 and bStmtordec stmtOrDec varEnv : bstmtordec * VarEnv =
     match stmtOrDec with 
@@ -260,6 +273,31 @@ and cExpr (e : expr) (varEnv : VarEnv) (funEnv : FunEnv) (C : instr list) : inst
             | ">"   -> SWAP :: LT :: C
             | "<="  -> SWAP :: LT :: addNOT C
             | _     -> failwith "unknown primitive 2"))
+    | AssignThird(ope,acc,e) ->    //新增
+      let rec tmp stat = 
+                  match stat with
+                  |Access(c) -> c  
+      cAccess acc varEnv funEnv lablist structEnv
+      ( cExpr e varEnv funEnv lablist structEnv
+          (match ope with
+          | "+=" ->
+              let ass = Assign (acc,BinaryPrimitiveOperator("+",Access(acc),e))
+              cExpr ass varEnv funEnv lablist structEnv (addINCSP -1 C)
+          | "-=" ->
+              let ass = Assign (acc,BinaryPrimitiveOperator("-",Access(acc),e))
+              cExpr ass varEnv funEnv lablist structEnv (addINCSP -1 C)
+          | "*=" ->
+              let ass = Assign (acc,BinaryPrimitiveOperator("*",Access(acc),e))
+              cExpr ass varEnv funEnv lablist structEnv (addINCSP -1 C)
+          | "/=" ->
+              let ass = Assign (acc,BinaryPrimitiveOperator("/",Access(acc),e))
+              cExpr ass varEnv funEnv lablist structEnv (addINCSP -1 C)
+          | "%=" ->
+              let ass = Assign (acc,BinaryPrimitiveOperator("%",Access(acc),e))
+              cExpr ass varEnv funEnv lablist structEnv (addINCSP -1 C)
+          | _     -> failwith "Error2: unknown operator"
+          )
+      )
     | Andalso(e1, e2) ->
       match C with
       | IFZERO lab :: _ ->

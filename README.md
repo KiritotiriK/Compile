@@ -2,6 +2,15 @@
 ## Miroc
 
 
+### 6.4新增 `wyl`：
+* MyPar.fsy—— 语法分析器
+  * 新增token指令 `FOR`
+  * 新增StmtM `FOR`
+* MyLex.fsl—— 词法分析器
+  * 新增声明 `"for" -> FOR`
+* Contcompile.fs—— 将抽象语法树转化为中间表示
+  * 新增`cStmt stmt`表达式`For(dec, e, opera,body)`，参考`Prim2(ope, e1, e2)`
+
 ### 6.3新增 `wyl`：
 * AbstractSyntax.fs—— 抽象语法树文件
   * 新增声明：`AssignThird`，参考了Assign
