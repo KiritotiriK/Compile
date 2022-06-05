@@ -234,8 +234,8 @@ ConstChar:
   CSTCHAR                               { $1       }
 
 Type:
-    INT                                 { TypI     }
-  | CHAR                                { TypC     }
+    INT                                 { TypeInt      }
+  | CHAR                                { TypeChar     }
   | STRING                              { TypeString   }
   | FLOAT                               { TypeFloat    }
   | STRUCT  NAME                        { TypeStruct($2) }

@@ -127,6 +127,8 @@ and String chars = parse
       { String (cEscape (lexemeAsString lexbuf) :: chars) lexbuf }
   | "''" 
       { String ('\'' :: chars) lexbuf }
+  | """" 
+      { String ('\"' :: chars) lexbuf }
   | '\\'
       { failwith "Lexer error: illegal escape sequence" }
   | (eof | '\026')       { failwith "Lexer error: unterminated string" } 

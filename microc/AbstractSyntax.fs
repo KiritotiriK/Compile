@@ -4,8 +4,8 @@ module AbstractSyntax
 // 注意，数组、指针是递归类型
 // 这里没有函数类型，注意与上次课的 MicroML 对比
 type typ =
-  | TypI                             (* Type int                    *)
-  | TypC                             (* Type char                   *)
+  | TypInt                           (* Type int                    *)
+  | TypeChar                         (* Type char                   *)
   | TypA of typ * int option         (* Array type                  *)
   | TypP of typ                      (* Pointer type                *)
   | TypString                        (* Type string                 *)
@@ -17,15 +17,16 @@ and expr =                           // 表达式，右值
   | Assign of access * expr          (* x=e  or  *p=e  or  a[e]=e   *)
   | AssignThird of string * IAccess * IExpression  //新增+=，-=，*=，/=,%=
   | Addr of access                   (* &x   or  &*p   or  &a[e]    *)
-  | CstI of int                      (* Constant                    *)
+  | ConstInt of int                  (* Constant int                *)
   | Prim1 of string * expr           (* Unary primitive operator    *)
   | Prim2 of string * expr * expr    (* Binary primitive operator   *)
   | Andalso of expr * expr           (* Sequential and              *)
   | Orelse of expr * expr            (* Sequential or               *)
   | Call of string * expr list       (* Function call f(...)        *)
-  | ConstFloat of float32            (* constant float               *)
+  | ConstFloat of float32            (* constant float              *)
+  | ConstChar of char                (*constant char*) 
 
-                                                                   
+
 and access =                         //左值，存储的位置                                            
   | AccVar of string                 (* Variable access        x    *) 
   | AccDeref of expr                 (* Pointer dereferencing  *p   *)
