@@ -1,6 +1,11 @@
 # 编译原理大作业
 ## Miroc
 
+### 6.6新增 `wyl`：
+* interpc copy.fsproj
+  * 新增修改`Compile`：`MyPar` `MyLex` `Contcompile` `Compile`
+
+
 ### 6.5新增 `wyl`：
 * AbstractSyntax.fs—— 抽象语法树文件
   * 修改声明：`TypeInt` `TypeChar` `ConstInt` `ConstChar`
